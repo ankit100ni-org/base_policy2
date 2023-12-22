@@ -33,9 +33,6 @@ echo "$json_data" | jq -r 'to_entries[] | "\(.key) \(.value.client_name) \(.valu
     echo "knife connectivity is failed for org $org_name" >> "$failed_org_log"
   fi
   ls -lhrt 
-  sudo apt install expect
-  sudo chmod 777 .github/workflows/accept_cert.sh
-  sudo bash .github/workflows/accept_cert.sh
   chef show-policy
 done
 

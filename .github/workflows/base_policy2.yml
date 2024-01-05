@@ -1,8 +1,8 @@
-name: base_policy2
+name: base-policy
 
 on:
   repository_dispatch:
-    types: [base_policy2]
+    types: [base-policy]
   pull_request:
     types: [opened, reopened, edited, synchronize]
     branches:
@@ -22,19 +22,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Check if Cookbook poilicy part of Base policy
-        run: |
-          policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
-          echo $policy_file_name
+      # - name: Check if Cookbook poilicy part of Base policy
+      #   run: |
+      #     policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
+      #     echo $policy_file_name
 
-          echo "Parameter1: $parameter1"
-          IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
-          echo "IF_BASE $IF_BASE"
-          if [ -z "$IF_BASE" ]; then
-            echo "skip_step=true" >> $GITHUB_ENV
-          else
-            echo "skip_step=false" >> $GITHUB_ENV
-          fi
+      #     echo "Parameter1: $parameter1"
+      #     IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
+      #     echo "IF_BASE $IF_BASE"
+      #     if [ -z "$IF_BASE" ]; then
+      #       echo "skip_step=true" >> $GITHUB_ENV
+      #     else
+      #       echo "skip_step=false" >> $GITHUB_ENV
+      #     fi
 
       - name: Installing Workstation
         run: |
@@ -72,7 +72,15 @@ jobs:
             # converge
             rm $tmp_policy_file
           done
-        if: env.skip_step == 'false'
+      - name: Node Creation using Terraform
+        run: echo "Node Creation using Terraform"
+
+      - name: Chef Configuration
+        run: echo "Node boostrap \n Setup Policy"
+
+      - name: Destroying Terraform Node
+        run: echo "Destroying Terraform Node"
+
 
 
 

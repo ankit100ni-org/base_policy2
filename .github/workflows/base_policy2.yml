@@ -2,7 +2,7 @@ name: base-policy
 
 on:
   repository_dispatch:
-    types: [base-policy]
+    types: [base_policy2]
   pull_request:
     types: [opened, reopened, edited, synchronize]
     branches:
@@ -22,19 +22,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # - name: Check if Cookbook poilicy part of Base policy
-      #   run: |
-      #     policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
-      #     echo $policy_file_name
+      - name: Check if Cookbook poilicy part of Base policy
+        run: |
+          policy_file_name=$(echo "$(basename "$(find . -type f -exec grep -l "^include_policy" {} + )")")
+          echo $policy_file_name
 
-      #     echo "Parameter1: $parameter1"
-      #     IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
-      #     echo "IF_BASE $IF_BASE"
-      #     if [ -z "$IF_BASE" ]; then
-      #       echo "skip_step=true" >> $GITHUB_ENV
-      #     else
-      #       echo "skip_step=false" >> $GITHUB_ENV
-      #     fi
+          echo "Parameter1: $parameter1"
+          IF_BASE=`echo "$(cat $policy_file_name | grep "^include_policy" | grep "'$parameter1'")"`
+          echo "IF_BASE $IF_BASE"
+          if [ -z "$IF_BASE" ]; then
+            echo "skip_step=true" >> $GITHUB_ENV
+          else
+            echo "skip_step=false" >> $GITHUB_ENV
+          fi
 
       - name: Installing Workstation
         run: |
